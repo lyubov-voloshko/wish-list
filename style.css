@@ -1,0 +1,96 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: "PT Sans";
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+}
+
+h1{
+    text-align: center;
+    padding: 80px 0 40px;
+}
+
+.addWishForm {
+    display: flex;
+    width: 50%;
+}
+
+.addWishForm__textBox {
+    border: 1px solid #bababa;
+    border-radius: 5px;
+    font-size: 16px;
+    padding: 8px 12px;
+    transition: box-shadow 500ms;
+}
+
+.addWishForm__textBox:focus {
+    box-shadow: 1px 1px 10px 3px rgba(0,0,0,0.1);
+}
+
+.addWishForm__textBox_wish {
+    width: 160px;
+}
+
+.addWishForm__textBox_description {
+    flex: 1 0 auto;
+    margin: 0 12px;
+}
+
+.addWishForm__button {
+    background: blanchedalmond;
+    border: 1px solid blanchedalmond;
+    border-radius: 5px;
+    color: #333;
+    font-size: 16px;
+    padding: 0 20px;
+    transition: border 500ms;
+}
+
+.addWishForm__button:hover{
+    border: 1px solid #333;
+}
+
+.withList {
+    background: blanchedalmond;
+    border-radius: 10px;
+    list-style: none;
+    margin-top: 30px;
+    padding: 20px;
+    width: 50%;
+}
+
+.wish {
+    border-bottom: 1px solid #cecece;
+    margin: 15px;
+    padding-bottom: 15px;
+}
+
+.wish:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.wish__title {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.wish__description {
+    color: #999;
+    font-size: 14px;
+}
+
+.wish__delete {
+    float: right;
+}

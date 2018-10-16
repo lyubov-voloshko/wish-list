@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Wisth List</title>
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <h1>Wish List</h1>
+        <div class="content">
+            <form id="addWishForm" class="addWishForm">
+                <input type="text"
+                       name="wishTitle"
+                       placeholder="Enter your wish"
+                       class="addWishForm__textBox addWishForm__textBox_wish" />
+                <input type="text"
+                       name="wishDescription"
+                       placeholder="Add some description"
+                       class="addWishForm__textBox addWishForm__textBox_description" />
+                <button type="submit" class="addWishForm__button">Add</button>
+            </form>
+            <ul id="withList" class="withList"></ul>
+        </div>
+
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA4BJf1CbGVZ-CH8U9FxIwjyjfHa4b1SRE",
+                authDomain: "wish-list-6144b.firebaseapp.com",
+                databaseURL: "https://wish-list-6144b.firebaseio.com",
+                projectId: "wish-list-6144b",
+                storageBucket: "wish-list-6144b.appspot.com",
+                messagingSenderId: "183033496938"
+            };
+            firebase.initializeApp(config);
+
+            const db = firebase.firestore();
+            db.settings({ timestampsInSnapshots: true });
+        </script>
+
+        <script src="script.js"></script>
+    </body>
+</html>
