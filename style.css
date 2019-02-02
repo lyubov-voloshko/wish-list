@@ -1,9 +1,3 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 html {
     font-family: "PT Sans";
 }
@@ -23,6 +17,11 @@ h1{
 
 .addWishForm {
     display: flex;
+    flex-wrap: wrap;
+    border: 1px solid #bababa;
+    border-radius: 8px;
+    box-sizing: border-box;
+    padding: 20px 35px;
     width: 50%;
 }
 
@@ -31,6 +30,7 @@ h1{
     border-radius: 5px;
     font-size: 16px;
     margin-right: 12px;
+    margin-top: 20px;
     padding: 8px 12px;
     transition: box-shadow 500ms;
 }
@@ -40,7 +40,7 @@ h1{
 }
 
 .addWishForm__textBox_wish {
-    width: 160px;
+    width: 50%;
 }
 
 .addWishForm__textBox_description {
@@ -52,6 +52,7 @@ h1{
     border: 1px solid #bababa;
     border-radius: 5px;
     font-size: 16px;
+    margin-top: 20px;
     margin-right: 12px;
 }
 
@@ -61,6 +62,7 @@ h1{
     border-radius: 5px;
     color: #333;
     font-size: 16px;
+    margin-top: 20px;
     padding: 0 20px;
     transition: border 500ms;
 }
@@ -70,45 +72,10 @@ h1{
 }
 
 .withList {
-    background: blanchedalmond;
-    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 3%;
     list-style: none;
-    margin-top: 30px;
-    padding: 20px;
+    margin-top: 32px;
     width: 50%;
-}
-
-.wish {
-    border-bottom: 1px solid #cecece;
-    margin: 15px;
-    padding-bottom: 15px;
-}
-
-.wish:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.wish__title {
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.wish__category {
-    background: #cecece;
-    border-radius: 5px;
-    color: #fff;
-    font-size: 12px;
-    margin-left: 15px;
-    padding: 1px 4px;
-}
-
-.wish__description {
-    color: #999;
-    font-size: 14px;
-}
-
-.wish__delete {
-    float: right;
-    margin-top: -10px;
 }

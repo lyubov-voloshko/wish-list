@@ -5,9 +5,45 @@
         <title>Wisth List</title>
         <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
+        <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
+        <template id="wish-card">
+            <style>
+                :host {
+                    display: block;
+                    border-radius: 12px;
+                    box-shadow: 0 0 12px 3px #0000001a;
+                    padding: 20px;
+                }
+
+                #wishImage {
+                    background-size: cover;
+                    background-position: center;
+                    height: 180px;
+                    width: 100%;
+                }
+
+                h1 {
+                    color: cornflowerblue;
+                }
+
+                button {
+                    background: coral;
+                    border: none;
+                    border-radius: 5px;
+                    color: white;
+                    padding: 2px 5px;
+                }
+            </style>
+            <div id="wishImage" role="img"></div>
+            <h1><slot name="title">Name of wish</slot></h1>
+            <slot name="category">category</slot>
+            <p><slot name="description">Wish description</slot></p>
+            <button type="button" id="removeWish">remove</button>
+        </template>
+
         <h1>Wish List</h1>
         <div class="content">
             <form id="addWishForm" class="addWishForm">
@@ -15,16 +51,20 @@
                        name="wishTitle"
                        placeholder="Enter your wish"
                        class="addWishForm__textBox addWishForm__textBox_wish" />
-                <input type="text"
-                       name="wishDescription"
-                       placeholder="Add some description"
-                       class="addWishForm__textBox addWishForm__textBox_description" />
                 <select class="addWishForm__select" name="wishCategory">
                     <option>travelling</option>
                     <option>food</option>
                     <option>item</option>
                     <option>clothes</option>
                 </select>
+                <input type="text"
+                       name="wishDescription"
+                       placeholder="Add some description"
+                       class="addWishForm__textBox addWishForm__textBox_description" />
+                <input type="text"
+                       name="wishImage"
+                       placeholder="Add image url"
+                       class="addWishForm__textBox addWishForm__textBox_image" />
                 <button type="submit" class="addWishForm__button">Add</button>
             </form>
             <ul id="withList" class="withList"></ul>
