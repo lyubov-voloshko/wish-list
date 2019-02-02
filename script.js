@@ -13,7 +13,6 @@ function renderWish (doc) {
     category.setAttribute('slot', 'category');
     description.setAttribute('slot', 'description');
 
-
     title.textContent = doc.data().title;
     category.textContent = doc.data().category;
     description.textContent = doc.data().description;
