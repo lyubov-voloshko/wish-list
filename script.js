@@ -1,3 +1,7 @@
+import wishCard from '/wishCard.js';
+
+console.log(wishCard);
+
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
 
@@ -26,40 +30,6 @@ function renderWish (doc) {
     li.appendChild(card);
     wishList.appendChild(li);
 }
-
-class WishCard extends HTMLElement {
-    constructor() {
-        super();
-        let shadowWishCard = document.getElementById('wish-card').content.cloneNode(true);
-
-        this.image = shadowWishCard.getElementById('wishImage');
-        this.removeButton = shadowWishCard.getElementById('removeWish');
-
-        this.attachShadow({mode: 'open'}).appendChild(shadowWishCard);
-    }
-
-    get imageURL() {
-        return this.getAttribute('data-image');
-    }
-
-    connectedCallback() {
-        this.removeButton.addEventListener('click', (e) => {
-            this.removeWish(e);
-        });
-        this.image.style.backgroundImage = `url(${this.imageURL}`;
-
-    }
-
-    removeWish(e) {
-        e.stopPropagation();
-        let id = this.getAttribute('data-id');
-        console.log('deleted id: ' + id);
-        db.collection('wishes').doc(id).delete();
-        refreshWishes();
-    }
-}
-
-customElements.define('wish-card', WishCard);
 
 function getWishesAll () {
     db.collection('wishes').get().then((snapshot) => {

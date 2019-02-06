@@ -1,5 +1,5 @@
-html {
-    font-family: "PT Sans";
+html, body {
+    font-family: "Lato";
 }
 
 .content {
@@ -13,30 +13,42 @@ html {
 h1{
     text-align: center;
     padding: 80px 0 40px;
+    font-family: 'Averia Serif Libre', cursive;
+    font-size: 3em;
 }
 
 .addWishForm {
     display: flex;
     flex-wrap: wrap;
-    border: 1px solid #bababa;
-    border-radius: 8px;
+    background: white;
+    box-shadow: 0 0 12px 3px #0000001a;
     box-sizing: border-box;
+    column-gap: 20px;
     padding: 20px 35px;
     width: 50%;
 }
 
 .addWishForm__textBox {
-    border: 1px solid #bababa;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid #bababa;
+    border-radius: 4px 4px 0 0;
     font-size: 16px;
-    margin-right: 12px;
-    margin-top: 20px;
-    padding: 8px 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding: 12px 12px 4px;
     transition: box-shadow 500ms;
+}
+
+.addWishForm__textBox::placeholder {
+    color: #bebebe;
 }
 
 .addWishForm__textBox:focus {
     box-shadow: 1px 1px 10px 3px rgba(0,0,0,0.1);
+}
+
+.addWishForm__textBox:focus::placeholder {
+    color: transparent;
 }
 
 .addWishForm__textBox_wish {
@@ -44,31 +56,40 @@ h1{
 }
 
 .addWishForm__textBox_description {
-    flex: 1 0 auto;
+    width: 100%;
 }
 
 .addWishForm__select {
     flex: 1 0 auto;
-    border: 1px solid #bababa;
-    border-radius: 5px;
+    border: none;
+    border-bottom: 1px solid #bababa;
+    border-radius: 4px 4px 0 0;
     font-size: 16px;
-    margin-top: 20px;
-    margin-right: 12px;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+
+.addWishForm__textBox_image {
+    flex: 1 0 auto;
 }
 
 .addWishForm__button {
-    background: blanchedalmond;
-    border: 1px solid blanchedalmond;
-    border-radius: 5px;
-    color: #333;
+    background: transparent;
+    border: 1px solid cornflowerblue;
+    border-radius: 4px;
+    color: cornflowerblue;
     font-size: 16px;
-    margin-top: 20px;
+    margin-top: 12px;
+    margin-bottom: 12px;
     padding: 0 20px;
-    transition: border 500ms;
+    text-transform: uppercase;
+    transition: background 300ms, border 300ms, color 300ms;
 }
 
 .addWishForm__button:hover{
-    border: 1px solid #333;
+    background: #6495ED88;
+    border: 1px solid #6495ED88;
+    color: white;
 }
 
 .withList {
