@@ -1,9 +1,28 @@
 import wishCard from '/wishCard.js';
 
-console.log(wishCard);
-
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
+
+const tabs = document.querySelectorAll('.tabButton');
+
+tabs.forEach((tab) => {
+    tab.addEventListener('click', (event) => {
+        event.preventDefault();
+        tabs.forEach((tabItem) => tabItem.classList.remove('tabButton_active'));
+        tab.classList.add('tabButton_active');
+        if (tab.getAttribute('data-type') === 'all') {
+            getWishesAll();
+        }
+
+        if (tab.getAttribute('data-type') === 'current') {
+            refreshWishesGranted(false);
+        }
+
+        if (tab.getAttribute('data-type') === 'granted') {
+            refreshWishesGranted(true);
+        }
+    })
+});
 
 function renderWish (doc) {
     let li = document.createElement('li');
@@ -13,6 +32,7 @@ function renderWish (doc) {
     let category = document.createElement('span');
     let description = document.createElement('span');
 
+    li.classList.add('withList__item');
     title.setAttribute('slot', 'title');
     category.setAttribute('slot', 'category');
     description.setAttribute('slot', 'description');
@@ -31,17 +51,17 @@ function renderWish (doc) {
     wishList.appendChild(li);
 }
 
-function getWishesAll () {
-    db.collection('wishes').get().then((snapshot) => {
+function getWishedGranted (isGranted) {
+    db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             renderWish (doc);
         })
     })
 }
 
-function refreshWishes () {
+function refreshWishesGranted (isGranted) {
     wishList.innerHTML = "";
-    getWishesAll();
+    getWishedGranted(isGranted);
 }
 
 addWishForm.addEventListener('submit', (e) => {
@@ -50,14 +70,26 @@ addWishForm.addEventListener('submit', (e) => {
         title: addWishForm.wishTitle.value,
         category: addWishForm.wishCategory.value,
         description: addWishForm.wishDescription.value,
-        imageURL: addWishForm.wishImage.value
+        imageURL: addWishForm.wishImage.value,
+        isGranted: false
     });
 
     addWishForm.wishTitle.value = '';
     addWishForm.wishCategory.value = '';
     addWishForm.wishDescription.value = '';
     addWishForm.wishImage.value = '';
-    refreshWishes();
 })
 
-getWishesAll();
+db.collection('wishes').orderBy('category').onSnapshot( snapshot => {
+    let changes = snapshot.docChanges();
+    changes.forEach( change => {
+        if (change.type == 'added') {
+            renderWish(change.doc);
+        } else if (change.type == 'removed') {
+            let li = wishList.querySelector('[data-id=' + change.doc.id + ']').parentNode;
+            wishList.removeChild(li);
+        }
+    })
+})
+
+//getWishedFiltered();

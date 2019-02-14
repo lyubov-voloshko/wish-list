@@ -3,9 +3,11 @@ const wishCardTemplate = document.createElement('template');
 wishCardTemplate.innerHTML = `
     <style>
         :host {
-            display: block;
-            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;            border-radius: 12px;
             box-shadow: 0 0 12px 3px #0000001a;
+            height: 100%;
             padding: 8px;
         }
 
@@ -31,6 +33,7 @@ wishCardTemplate.innerHTML = `
             font-family: 'Averia Serif Libre', cursive;
             font-weight: 400;
             font-size: 1.75em;
+            line-height: 1.1em;
             margin: 16px 0 8px;
             text-transform: capitalize;
         }
@@ -79,8 +82,10 @@ wishCardTemplate.innerHTML = `
             color: white;
         }
     </style>
-    <div id="wishImage" role="img"></div>
-    <slot name="category" class="category">category</slot>
+    <div>
+        <div id="wishImage" role="img"></div>
+        <slot name="category" class="category">category</slot>
+    </div>
     <h1><slot name="title">Name of wish</slot></h1>
     <div class="description">
         <slot name="description">Wish description</slot>
@@ -121,7 +126,6 @@ export default class WishCard extends HTMLElement {
         let id = this.getAttribute('data-id');
         console.log('deleted id: ' + id);
         db.collection('wishes').doc(id).delete();
-        refreshWishes();
     }
 }
 

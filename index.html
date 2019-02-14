@@ -40,10 +40,12 @@
                        placeholder="Enter your wish"
                        class="addWishForm__textBox addWishForm__textBox_wish" />
                 <select class="addWishForm__select" name="wishCategory">
-                    <option>travelling</option>
+                    <option>book</option>
+                    <option>clothes</option>
                     <option>food</option>
                     <option>item</option>
-                    <option>clothes</option>
+                    <option>job</option>
+                    <option>travelling</option>
                 </select>
                 <input type="text"
                        name="wishDescription"
@@ -55,7 +57,20 @@
                        class="addWishForm__textBox addWishForm__textBox_image" />
                 <button type="submit" class="addWishForm__button">Add</button>
             </form>
-            <ul id="withList" class="withList"></ul>
+            <div class="wishes">
+                <ul class="tabs">
+                    <li class="tab">
+                        <button class="tabButton tabButton_active" data-type="all">All</button>
+                    </li>
+                    <li class="tab">
+                        <button class="tabButton" data-type="current">Current</button>
+                    </li>
+                    <li class="tab">
+                        <button class="tabButton" data-type="granted">Granted</button>
+                    </li>
+                </ul>
+                <ul id="withList" class="withList"></ul>
+            </div>
         </div>
     </body>
 </html>

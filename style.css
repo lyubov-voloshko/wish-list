@@ -92,11 +92,48 @@ h1{
     color: white;
 }
 
+.wishes {
+    margin: 0 auto 64px;
+    min-width: 720px;
+    width: 50%;
+}
+
+.tabs {
+    list-style: none;
+    margin-top: 32px;
+}
+
+.tab {
+    display: inline-block;
+}
+
+.tabButton {
+    background: transparent;
+    border-top: none;
+    border-right: none;
+    border-bottom: 2px solid transparent;
+    border-left: none;
+    font-size: 16px;
+    text-transform: uppercase;
+    padding: 10px 20px;
+}
+
+.tabButton_active {
+    border-bottom: 2px solid cornflowerblue;
+}
+
 .withList {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 3%;
+    grid-gap: 20px;
+    align-items: start;
     list-style: none;
     margin-top: 32px;
-    width: 50%;
+    width: 100%;
+}
+
+.withList__item {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
