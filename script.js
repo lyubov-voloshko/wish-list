@@ -1,5 +1,7 @@
 import wishCard from '/wishCard.js';
 
+const wishes = db.collection('wishes').get();
+
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
 
@@ -43,6 +45,7 @@ function renderWish (doc) {
 
     card.setAttribute('data-id', doc.id);
     card.setAttribute('data-image', doc.data().imageURL);
+    card.setAttribute('data-granted', doc.data().isGranted);
     card.appendChild(title);
     card.appendChild(category);
     card.appendChild(description);
@@ -52,7 +55,7 @@ function renderWish (doc) {
 }
 
 function getWishedGranted (isGranted) {
-    db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').get().then((snapshot) => {
+    db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').then((snapshot) => {
         snapshot.docs.forEach(doc => {
             renderWish (doc);
         })
@@ -82,12 +85,16 @@ addWishForm.addEventListener('submit', (e) => {
 
 db.collection('wishes').orderBy('category').onSnapshot( snapshot => {
     let changes = snapshot.docChanges();
+    console.log(changes);
     changes.forEach( change => {
         if (change.type == 'added') {
             renderWish(change.doc);
         } else if (change.type == 'removed') {
             let li = wishList.querySelector('[data-id=' + change.doc.id + ']').parentNode;
             wishList.removeChild(li);
+        } else if (change.type == 'modified') {
+            let grantButton = wishList.querySelector('[data-id=' + change.doc.id + ']').grantButton;
+            grantButton.style.visibility='hidden';
         }
     })
 })

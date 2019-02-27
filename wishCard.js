@@ -1,14 +1,37 @@
+import WishEdit from '/wishEdit.js';
+
 const wishCardTemplate = document.createElement('template');
 
 wishCardTemplate.innerHTML = `
     <style>
         :host {
+            --colorPrimary_dark: teal;
+            --colorPrimary_light: cadetblue;
+            --colorSecondary_dark: indianred;
+            --colorSecondary_light: salmon;
+            --colorComplementary: palegoldenrod;
+            position: relative;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;            border-radius: 12px;
+            justify-content: space-between;            
+            border-radius: 12px;
             box-shadow: 0 0 12px 3px #0000001a;
             height: 100%;
+            overflow: hidden;
             padding: 8px;
+        }
+        
+        .granted {
+            position: absolute;
+            background: var(--colorSecondary_dark) ;
+            //border: 1px solid var(--colorSecondary_dark);
+            padding: 8px;
+            color: white;
+            transform: translate(-48px, 8px) rotate(-45deg);
+            width: 120px;
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 12px;
         }
 
         #wishImage {
@@ -29,7 +52,7 @@ wishCardTemplate.innerHTML = `
         }
 
         h1 {
-            color: cornflowerblue;
+            color: var(--colorPrimary_dark);
             font-family: 'Averia Serif Libre', cursive;
             font-weight: 400;
             font-size: 1.75em;
@@ -60,12 +83,30 @@ wishCardTemplate.innerHTML = `
         .actions {
             display: flex;
             justify-content: space-between;
-            background: #f3f3f3;
+            background: var(--colorComplementary);
             border-radius: 0 0 8px 8px;
             padding: 8px;
         }
+        
+        .button_primary {
+            position: absolute;
+            top: 180px;
+            right: 8px;
+            background: var(--colorSecondary_dark);
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            line-height: 32px;
+            text-transform: uppercase;
+            width: 80px;
+        }
+        
+        .button_primary:hover {
+            background: var(--colorSecondary_light);
+        }
 
-        button {
+        .button_secondary {
             background: transparent;
             border: none;
             border-radius: 4px;
@@ -78,12 +119,14 @@ wishCardTemplate.innerHTML = `
         }
 
         button:hover {
-            background: #6495ED88;
+            background: var(--colorPrimary_light);
             color: white;
         }
     </style>
     <div>
+        <div id="grantedMark" class="granted">granted</div>
         <div id="wishImage" role="img"></div>
+        <button type="button" id="grantWish" class="button_primary">grant</button>        
         <slot name="category" class="category">category</slot>
     </div>
     <h1><slot name="title">Name of wish</slot></h1>
@@ -92,9 +135,9 @@ wishCardTemplate.innerHTML = `
         <div class="description__veil"></div>
     </div>
     <div class="actions">
-        <button type="button" id="openWish">open</button>
-        <button type="button" id="editWish">edit</button>
-        <button type="button" id="removeWish">remove</button>
+        <button type="button" id="opentWish" class="button_secondary">open</button>
+        <button type="button" id="editWish" class="button_secondary">edit</button>
+        <button type="button" id="removeWish" class="button_secondary">remove</button>
     </div>
 `
 
@@ -105,20 +148,36 @@ export default class WishCard extends HTMLElement {
         let wishCardInstance = wishCardTemplate.content.cloneNode(true);
 
         this.image = wishCardInstance.getElementById('wishImage');
+        this.grantedMark = wishCardInstance.getElementById('grantedMark');
+        this.grantButton = wishCardInstance.getElementById('grantWish');
+        this.editButton = wishCardInstance.getElementById('editWish');
         this.removeButton = wishCardInstance.getElementById('removeWish');
 
         this.attachShadow({mode: 'open'}).appendChild(wishCardInstance);
     }
 
-    get imageURL() {
-        return this.getAttribute('data-image');
-    }
+    get wishId() { return this.getAttribute('data-id'); }
+    get imageURL() { return this.getAttribute('data-image'); }
 
     connectedCallback() {
-        this.removeButton.addEventListener('click', (e) => {
-            this.removeWish(e);
-        });
+        this.removeButton.addEventListener('click', (e) => { this.removeWish(e); });
+        this.editButton.addEventListener('click', (e) => { this.openWishEdit(e); });
+        this.grantButton.addEventListener('click', (e) => { this.grantWish(e); });
+
+        if (this.getAttribute('data-granted') === 'true') {
+            this.grantButton.style.visibility='hidden'
+        } else {
+            this.grantedMark.style.visibility='hidden'
+        };
+
         this.image.style.backgroundImage = `url(${this.imageURL}`;
+
+    }
+
+    openWishEdit() {
+        let editDialog = document.createElement('wish-edit');
+        editDialog.setAttribute('data-id', this.wishId);
+        document.body.appendChild(editDialog);
     }
 
     removeWish(e) {
@@ -126,6 +185,13 @@ export default class WishCard extends HTMLElement {
         let id = this.getAttribute('data-id');
         console.log('deleted id: ' + id);
         db.collection('wishes').doc(id).delete();
+    }
+
+    grantWish() {
+        let id = this.getAttribute('data-id');
+        db.collection('wishes').doc(id).update({
+            isGranted: true
+        })
     }
 }
 

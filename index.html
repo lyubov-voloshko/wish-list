@@ -35,10 +35,12 @@
         <h1>Wish List</h1>
         <div class="content">
             <form id="addWishForm" class="addWishForm">
-                <input type="text"
-                       name="wishTitle"
-                       placeholder="Enter your wish"
-                       class="addWishForm__textBox addWishForm__textBox_wish" />
+                <text-box id="wishTitle"
+                          name="wishTitle"
+                          input-label="Enter your wish"
+                          class="addWishForm__textBox_wish">
+                </text-box>
+
                 <select class="addWishForm__select" name="wishCategory">
                     <option>book</option>
                     <option>clothes</option>
@@ -47,14 +49,19 @@
                     <option>job</option>
                     <option>travelling</option>
                 </select>
-                <input type="text"
-                       name="wishDescription"
-                       placeholder="Add some description"
-                       class="addWishForm__textBox addWishForm__textBox_description" />
-                <input type="text"
-                       name="wishImage"
-                       placeholder="Add image url"
-                       class="addWishForm__textBox addWishForm__textBox_image" />
+
+                <text-box id="wishDescription"
+                          name="wishDescription"
+                          input-label="Add some description"
+                          class="addWishForm__textBox_description">
+                </text-box>
+
+                <text-box id="wishDescription"
+                          name="wishImage"
+                          input-label="Add image url"
+                          class="addWishForm__textBox_image">
+                </text-box>
+
                 <button type="submit" class="addWishForm__button">Add</button>
             </form>
             <div class="wishes">
