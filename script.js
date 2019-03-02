@@ -1,7 +1,5 @@
 import wishCard from '/wishCard.js';
 
-const wishes = db.collection('wishes').get();
-
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
 
@@ -69,18 +67,24 @@ function refreshWishesGranted (isGranted) {
 
 addWishForm.addEventListener('submit', (e) => {
     e.preventDefault();
+
+    let addedTitle = document.getElementById('addWishTitle').textInput.value;
+    let addedCategory = document.getElementById('addWishCategory').value;
+    let addedDescription = document.getElementById('addWishDescription').textInput.value;
+    let addedImage = document.getElementById('addWishImage').textInput.value;
+
     db.collection('wishes').add({
-        title: addWishForm.wishTitle.value,
-        category: addWishForm.wishCategory.value,
-        description: addWishForm.wishDescription.value,
-        imageURL: addWishForm.wishImage.value,
+        title: addedTitle,
+        category: addedCategory,
+        description: addedDescription,
+        imageURL: addedImage,
         isGranted: false
     });
 
-    addWishForm.wishTitle.value = '';
-    addWishForm.wishCategory.value = '';
-    addWishForm.wishDescription.value = '';
-    addWishForm.wishImage.value = '';
+    addedTitle = '';
+    addedCategory = '';
+    addedDescription = '';
+    addedImage = '';
 })
 
 db.collection('wishes').orderBy('category').onSnapshot( snapshot => {

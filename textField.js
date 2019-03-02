@@ -38,6 +38,7 @@ textBoxTemplate.innerHTML = `
           transform: translate(0, -24px);
           color: var(--colorPrimary_dark);
           font-size: 12px;
+          opacity: 1;
         }
         
         .textBoxLabel {
@@ -48,14 +49,14 @@ textBoxTemplate.innerHTML = `
             color: var(--colorPrimary_light);
             cursor: text;
             font-size: 16px;
+            opacity: 0.25;
             padding: 0 8px;
             transform: translate(0, 0);
-            transition: transform 1s, color 1s, font-size 1s;
+            transition: transform 1s, color 1s, font-size 1s, opacity 1s;
         }
     </style>
     <div>
         <input type="text"
-            name="textBox"
             placeholder="Enter"
             class="textBox" />
         <label class="textBoxLabel"></label>
@@ -78,7 +79,7 @@ export default class TextBox extends HTMLElement {
 
     get inputID() { return this.getAttribute('id'); }
     get inputLabel() { return this.getAttribute('input-label'); }
-    get inputName() { return this.getAttribute('name'); }
+
     get inputValue() {
         if (this.getAttribute('input-value')) {
             return this.getAttribute('input-value')
@@ -89,9 +90,6 @@ export default class TextBox extends HTMLElement {
     static get observedAttributes() { return ["input-value","input-label","id"]; }
 
     attributeChangedCallback() {
-
-        console.log(`attributeChangedCallback: input value: ${this.inputValue}`);
-
         this.textInput.id = this.inputID;
         this.textLabel.setAttribute('for', this.inputID);
         this.textInput.value = this.inputValue;
@@ -100,8 +98,6 @@ export default class TextBox extends HTMLElement {
 
     connectedCallback() {
 
-        console.log(`value for text input: ${this.inputValue}`);
-        this.textInput.name = this.inputName;
     }
 }
 
