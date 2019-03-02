@@ -10,16 +10,17 @@ tabs.forEach((tab) => {
         event.preventDefault();
         tabs.forEach((tabItem) => tabItem.classList.remove('tabButton_active'));
         tab.classList.add('tabButton_active');
+        wishList.innerHTML = "";
         if (tab.getAttribute('data-type') === 'all') {
-            getWishesAll();
+            getWishes();
         }
 
         if (tab.getAttribute('data-type') === 'current') {
-            refreshWishesGranted(false);
+            getWishesGranted(false);
         }
 
         if (tab.getAttribute('data-type') === 'granted') {
-            refreshWishesGranted(true);
+            getWishesGranted(true);
         }
     })
 });
@@ -52,39 +53,43 @@ function renderWish (doc) {
     wishList.appendChild(li);
 }
 
-function getWishedGranted (isGranted) {
-    db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').then((snapshot) => {
+function getWishes () {
+    db.collection('wishes').orderBy('category').get().then((snapshot) => {
+        snapshot.docs.forEach(doc => {
+            renderWish (doc);
+        })
+    })
+
+}
+
+function getWishesGranted (isGranted) {
+    db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
             renderWish (doc);
         })
     })
 }
 
-function refreshWishesGranted (isGranted) {
-    wishList.innerHTML = "";
-    getWishedGranted(isGranted);
-}
-
 addWishForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    let addedTitle = document.getElementById('addWishTitle').textInput.value;
-    let addedCategory = document.getElementById('addWishCategory').value;
-    let addedDescription = document.getElementById('addWishDescription').textInput.value;
-    let addedImage = document.getElementById('addWishImage').textInput.value;
+    let addedTitle = document.getElementById('addWishTitle').textInput;
+    let addedCategory = document.getElementById('addWishCategory');
+    let addedDescription = document.getElementById('addWishDescription').textInput;
+    let addedImage = document.getElementById('addWishImage').textInput;
 
     db.collection('wishes').add({
-        title: addedTitle,
-        category: addedCategory,
-        description: addedDescription,
-        imageURL: addedImage,
+        title: addedTitle.value,
+        category: addedCategory.value,
+        description: addedDescription.value,
+        imageURL: addedImage.value,
         isGranted: false
     });
 
-    addedTitle = '';
-    addedCategory = '';
-    addedDescription = '';
-    addedImage = '';
+    addedTitle.value = '';
+    addedCategory.value = '';
+    addedDescription.value = '';
+    addedImage.value = '';
 })
 
 db.collection('wishes').orderBy('category').onSnapshot( snapshot => {
