@@ -52,7 +52,7 @@ textBoxTemplate.innerHTML = `
             opacity: 0.25;
             padding: 0 8px;
             transform: translate(0, 0);
-            transition: transform 1s, color 1s, font-size 1s, opacity 1s;
+            transition: transform 500ms, color 500ms, font-size 500ms, opacity 500ms;
         }
     </style>
     <div>

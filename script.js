@@ -98,7 +98,9 @@ db.collection('wishes').orderBy('category').onSnapshot( snapshot => {
             wishList.removeChild(li);
         } else if (change.type == 'modified') {
             let grantButton = wishList.querySelector('[data-id=' + change.doc.id + ']').grantButton;
+            let grantRibon = wishList.querySelector('[data-id=' + change.doc.id + ']').grantedMark;
             grantButton.style.visibility='hidden';
+            grantRibon.style.visibility='visible'
         }
     })
 })
