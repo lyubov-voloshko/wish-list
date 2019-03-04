@@ -2,6 +2,16 @@ html, body {
     font-family: "Lato";
 }
 
+:root {
+    --colorPrimary_dark: teal;
+    --colorPrimary_light: cadetblue;
+    --colorSecondary_dark: indianred;
+    --colorSecondary_light: salmon;
+    --colorComplementary: palegoldenrod;
+
+    --transition-speed: 300ms;
+}
+
 .content {
     display: flex;
     flex-direction: column;
@@ -24,31 +34,14 @@ h1{
     box-shadow: 0 0 12px 3px #0000001a;
     box-sizing: border-box;
     column-gap: 20px;
+    min-width: 720px;
     padding: 20px 35px;
     width: 50%;
 }
 
 .addWishForm__textBox {
-    border: none;
-    border-bottom: 1px solid #bababa;
-    border-radius: 4px 4px 0 0;
-    font-size: 16px;
     margin-top: 12px;
     margin-bottom: 12px;
-    padding: 12px 12px 4px;
-    transition: box-shadow 500ms;
-}
-
-.addWishForm__textBox::placeholder {
-    color: #bebebe;
-}
-
-.addWishForm__textBox:focus {
-    box-shadow: 1px 1px 10px 3px rgba(0,0,0,0.1);
-}
-
-.addWishForm__textBox:focus::placeholder {
-    color: transparent;
 }
 
 .addWishForm__textBox_wish {
@@ -73,23 +66,9 @@ h1{
     flex: 1 0 auto;
 }
 
-.addWishForm__button {
-    background: transparent;
-    border: 1px solid cornflowerblue;
-    border-radius: 4px;
-    color: cornflowerblue;
-    font-size: 16px;
-    margin-top: 12px;
-    margin-bottom: 12px;
-    padding: 0 20px;
-    text-transform: uppercase;
-    transition: background 300ms, border 300ms, color 300ms;
-}
-
-.addWishForm__button:hover{
-    background: #6495ED88;
-    border: 1px solid #6495ED88;
-    color: white;
+.addWishForm__button_solid {
+    margin-top: 8px;
+    margin-left: auto;
 }
 
 .wishes {

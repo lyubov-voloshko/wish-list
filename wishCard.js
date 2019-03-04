@@ -5,11 +5,6 @@ const wishCardTemplate = document.createElement('template');
 wishCardTemplate.innerHTML = `
     <style>
         :host {
-            --colorPrimary_dark: teal;
-            --colorPrimary_light: cadetblue;
-            --colorSecondary_dark: indianred;
-            --colorSecondary_light: salmon;
-            --colorComplementary: palegoldenrod;
             position: relative;
             display: flex;
             flex-direction: column;

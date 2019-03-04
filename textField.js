@@ -3,11 +3,6 @@ const textBoxTemplate = document.createElement('template');
 textBoxTemplate.innerHTML = `
     <style>
         :host {
-            --colorPrimary_dark: teal;
-            --colorPrimary_light: cadetblue;
-            --colorSecondary_dark: indianred;
-            --colorSecondary_light: salmon;
-            --colorComplementary: palegoldenrod;
             position: relative;
             width: 100%;
         }
@@ -18,10 +13,8 @@ textBoxTemplate.innerHTML = `
             box-shadow: 0 0 1px 2px rgba(0,0,0,0.1);
             box-sizing: border-box;
             font-size: 16px;
-            margin-top: 12px;
-            margin-bottom: 12px;
             padding: 8px 12px 8px;
-            transition: box-shadow 500ms;
+            transition: box-shadow var(--transition-speed);
             width: 100%;
         }
         
@@ -44,7 +37,7 @@ textBoxTemplate.innerHTML = `
         .textBoxLabel {
             position: absolute;
             left: 8px;
-            bottom: 22px;
+            bottom: 11px;
             background: white;
             color: var(--colorPrimary_light);
             cursor: text;
@@ -52,15 +45,16 @@ textBoxTemplate.innerHTML = `
             opacity: 0.25;
             padding: 0 8px;
             transform: translate(0, 0);
-            transition: transform 500ms, color 500ms, font-size 500ms, opacity 500ms;
+            transition: transform var(--transition-speed), 
+                        color var(--transition-speed), 
+                        font-size var(--transition-speed),
+                        opacity var(--transition-speed);
         }
     </style>
-    <div>
-        <input type="text"
+    <input type="text"
             placeholder="Enter"
             class="textBox" />
-        <label class="textBoxLabel"></label>
-    </div>
+    <label class="textBoxLabel"></label>
 `
 
 export default class TextBox extends HTMLElement {
