@@ -1,4 +1,5 @@
 import WishEdit from '/wishEdit.js';
+import WishRemove from '/wishRemove.js';
 
 const wishCardTemplate = document.createElement('template');
 
@@ -113,9 +114,39 @@ wishCardTemplate.innerHTML = `
             transition: background 300ms, color 300ms;
         }
 
-        button:hover {
-            background: var(--colorPrimary_light);
+        .button_secondary:hover {
+            background: var(--colorSecondary_light);
             color: white;
+        }
+        
+        #removeDialog {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        .removeDialog__veil {
+            position: fixed;
+            top: 0;
+            left: 0;
+            background: black;
+            opacity: 0.5;
+            height: 100vh;
+            width: 100vw;
+        }
+        
+        .dialog {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            border-radius: 8px;
+            height: 320px;
+            padding: 40px 32px;
+            width: 480px;
         }
     </style>
     <div>
@@ -134,6 +165,18 @@ wishCardTemplate.innerHTML = `
         <button type="button" id="editWish" class="button_secondary">edit</button>
         <button type="button" id="removeWish" class="button_secondary">remove</button>
     </div>
+    
+    <template id="remove-dialog">
+        <div id="veil" class="removeDialog__veil"></div>
+        <div id="" class="dialog">
+            <p>
+                The wish will be deleted. <br/>
+                Are you sure?
+            </p>
+            <button class="button button_outlined">cancel</button>
+            <button class="button button_solid">delete</button>
+        </div>
+    </template>
 `
 
 export default class WishCard extends HTMLElement {
@@ -148,6 +191,8 @@ export default class WishCard extends HTMLElement {
         this.editButton = wishCardInstance.getElementById('editWish');
         this.removeButton = wishCardInstance.getElementById('removeWish');
 
+        this.removeDialog = wishCardInstance.getElementById('remove-dialog');
+
         this.attachShadow({mode: 'open'}).appendChild(wishCardInstance);
     }
 
@@ -155,7 +200,7 @@ export default class WishCard extends HTMLElement {
     get imageURL() { return this.getAttribute('data-image'); }
 
     connectedCallback() {
-        this.removeButton.addEventListener('click', (e) => { this.removeWish(e); });
+        this.removeButton.addEventListener('click', (e) => { this.openWishRemove(e); });
         this.editButton.addEventListener('click', (e) => { this.openWishEdit(e); });
         this.grantButton.addEventListener('click', (e) => { this.grantWish(e); });
 
@@ -180,6 +225,12 @@ export default class WishCard extends HTMLElement {
         let id = this.getAttribute('data-id');
         console.log('deleted id: ' + id);
         db.collection('wishes').doc(id).delete();
+    }
+
+    openWishRemove(){
+        let removeDialog = document.createElement('wish-remove');
+        removeDialog.setAttribute('data-id', this.wishId);
+        document.body.appendChild(removeDialog);
     }
 
     grantWish() {

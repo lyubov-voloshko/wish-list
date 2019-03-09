@@ -57,10 +57,10 @@ wishEditTemplate.innerHTML = `
         }
     </style>
     <div class="screenWrapper">
-        <div class="screenWrapper__veil"></div>
-        <div class="dialog">
-            <text-box id="wishTitle" input-label="name of wish" class="dialog__title"></text-box>
-            <select id="wishCategory">
+        <div id="veil" class="screenWrapper__veil"></div>
+        <form id="wishEdit" class="dialog">
+            <text-box id="editWishTitle" input-label="name of wish" class="dialog__title"></text-box>
+            <select id="editWishSelect">
                 <option>book</option>
                 <option>clothes</option>
                 <option>food</option>
@@ -68,29 +68,31 @@ wishEditTemplate.innerHTML = `
                 <option>job</option>
                 <option>travelling</option>
             </select>
-            <text-box id="wishDescription" input-label="short description" class="dialog__textBox"></text-box>
-            <text-box id="imageURL" input-label="url of picture" class="dialog__textBox"></text-box>
+            <text-box id="editWishDescription" input-label="short description" class="dialog__textBox"></text-box>
+            <text-box id="editWishImage" input-label="url of picture" class="dialog__textBox"></text-box>
             
             <div class="actions">
-            
+                <button id="cancelButton" class="button button_outlined">cancel</button>
+                <button type="submit" class="button button_solid">edit</button>
             </div>
-        </div>
+        </form>
+    </div>    
 `
 
 export default class WishEdit extends HTMLElement {
     constructor() {
         super();
 
-
-
         let wishEditInstance = wishEditTemplate.content.cloneNode(true);
 
-        this.titleInput = wishEditInstance.getElementById('wishTitle');
-        this.categoryOptions = wishEditInstance.getElementById('wishCategory').querySelectorAll('option');
-        this.categoryOptions.forEach((option) => { console.log(option.innerHTML) });
-        console.log(this.categoryOptions);
-        this.descriptionInput = wishEditInstance.getElementById('wishDescription');
-        this.imageInput = wishEditInstance.getElementById('imageURL');
+        this.veil = wishEditInstance.getElementById('veil');
+        this.editForm = wishEditInstance.getElementById('wishEdit');
+        this.titleInput = wishEditInstance.getElementById('editWishTitle');
+        this.categorySelect = wishEditInstance.getElementById('editWishSelect');
+        this.categoryOptions = wishEditInstance.getElementById('editWishSelect').querySelectorAll('option');
+        this.descriptionInput = wishEditInstance.getElementById('editWishDescription');
+        this.imageInput = wishEditInstance.getElementById('editWishImage');
+        this.cancelButton = wishEditInstance.getElementById('cancelButton');
 
 
         this.attachShadow({mode: 'open'}).appendChild(wishEditInstance);
@@ -103,13 +105,12 @@ export default class WishEdit extends HTMLElement {
             const wish = await db.collection('wishes').doc(this.wishID).get();
 
             if (wish.exists) {
-                console.log("Document data:", wish.data());
+                console.log("Wish for editing:", wish.data());
             } else {
                 console.log("No such document!");
             };
 
             this.wish = wish;
-            console.log(`this.wish: ${this.wish.data().imageURL}`);
         } catch (error) {
             console.log("Error getting document:", error);
         }
@@ -122,6 +123,41 @@ export default class WishEdit extends HTMLElement {
         });
         this.descriptionInput.setAttribute('input-value', this.wish.data().description);
         this.imageInput.setAttribute('input-value', this.wish.data().imageURL);
+
+        this.veil.addEventListener('click', () => { this.handleCloseEdit(); });
+        this.cancelButton.addEventListener('click', () => { this.handleCloseEdit(); });
+        this.editForm.addEventListener('submit', (e) => { this.handleSubmit(e); });
+    }
+
+    handleCloseEdit() {
+        document.body.removeChild(this);
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        let editedTitle = this.titleInput.textInput;
+        let editedCategory = this.categorySelect.value;
+        let editedDescription = this.descriptionInput.textInput;
+        let editedImage = this.imageInput.textInput;
+
+        console.log(`submitted wish id: ${this.wishID}`);
+        console.log(`submitted wish image url: ${editedImage.value}`);
+
+        //debugger;
+
+        db.collection('wishes').doc(this.wishID).update({
+            title: editedTitle.value,
+            category: editedCategory,
+            description: editedDescription.value,
+            imageURL: editedImage.value,
+            isGranted: false
+        }).then(() => {
+            console.log("Document successfully edited!");
+            this.handleCloseEdit();
+        }).catch(function(error) {
+            console.error("Error: ", error);
+        });
     }
 
 }

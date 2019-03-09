@@ -28,15 +28,21 @@ tabs.forEach((tab) => {
     })
 });
 
-function renderWish (doc) {
+function renderWishItem(doc) {
     let li = document.createElement('li');
+    li.classList.add('withList__item');
+    li.appendChild(renderWishCard (doc));
+    wishList.appendChild(li);
+}
+
+function renderWishCard (doc) {
     let card = document.createElement('wish-card');
 
     let title = document.createElement('span');
     let category = document.createElement('span');
     let description = document.createElement('span');
 
-    li.classList.add('withList__item');
+
     title.setAttribute('slot', 'title');
     category.setAttribute('slot', 'category');
     description.setAttribute('slot', 'description');
@@ -52,14 +58,14 @@ function renderWish (doc) {
     card.appendChild(category);
     card.appendChild(description);
 
-    li.appendChild(card);
-    wishList.appendChild(li);
+    return card;
+
 }
 
 function getWishes () {
     db.collection('wishes').orderBy('category').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
-            renderWish (doc);
+            renderWishItem(doc);
         })
     })
 
@@ -68,7 +74,7 @@ function getWishes () {
 function getWishesGranted (isGranted) {
     db.collection('wishes').where('isGranted', '==', isGranted).orderBy('category').get().then((snapshot) => {
         snapshot.docs.forEach(doc => {
-            renderWish (doc);
+            renderWishItem (doc);
         })
     })
 }
@@ -97,18 +103,19 @@ addWishForm.addEventListener('submit', (e) => {
 
 db.collection('wishes').orderBy('category').onSnapshot( snapshot => {
     let changes = snapshot.docChanges();
+    console.log("snapshot changes:");
     console.log(changes);
     changes.forEach( change => {
         if (change.type == 'added') {
-            renderWish(change.doc);
+            renderWishItem(change.doc);
         } else if (change.type == 'removed') {
             let li = wishList.querySelector('[data-id=' + change.doc.id + ']').parentNode;
             wishList.removeChild(li);
         } else if (change.type == 'modified') {
-            let grantButton = wishList.querySelector('[data-id=' + change.doc.id + ']').grantButton;
-            let grantRibbon = wishList.querySelector('[data-id=' + change.doc.id + ']').grantedMark;
-            grantButton.style.visibility='hidden';
-            grantRibbon.style.visibility='visible'
+            let li = wishList.querySelector('[data-id=' + change.doc.id + ']').parentNode;
+            let card = wishList.querySelector('[data-id=' + change.doc.id + ']');
+            li.removeChild(card);
+            li.appendChild(renderWishCard(change.doc));
         }
     })
 })
