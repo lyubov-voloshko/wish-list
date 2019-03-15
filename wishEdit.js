@@ -55,6 +55,10 @@ wishEditTemplate.innerHTML = `
             margin: 20px 0;
             width: 100%;
         }
+        
+        .dialog__cancel {
+            margin-right: 8px;
+        }
     </style>
     <div class="screenWrapper">
         <div id="veil" class="screenWrapper__veil"></div>
@@ -72,8 +76,18 @@ wishEditTemplate.innerHTML = `
             <text-box id="editWishImage" input-label="url of picture" class="dialog__textBox"></text-box>
             
             <div class="actions">
-                <button id="cancelButton" class="button button_outlined">cancel</button>
-                <button type="submit" class="button button_solid">edit</button>
+                <app-button class="dialog__cancel"
+                    id="cancelButton"
+                    appearance="outlined"
+                    caption="cancel">
+                </app-button>
+                <app-button
+                    id="buttonRemove"
+                    type="submit"
+                    appearance="solid"
+                    caption="edit">
+                </app-button>
+
             </div>
         </form>
     </div>    

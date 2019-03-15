@@ -1,5 +1,5 @@
 import TextBox from '/textField.js';
-import Button from '/button.js';
+import AppButton from '/button.js';
 
 import wishCard from '/wishCard.js';
 

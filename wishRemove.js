@@ -39,9 +39,19 @@ wishRemoveTemplate.innerHTML = `
             transform: translate(-50%, -50%);
             background: white;
             border-radius: 8px;
-            height: 120px;
-            padding: 40px 32px;
-            width: 320px;
+            padding: 20px 24px;
+            width: 280px;
+        }
+        
+        .dialog__cancel {
+            margin-right: 8px;
+        }
+        
+        p {
+            color: #666;
+            line-height: 1.5em;
+            margin-bottom: 20px;
+            margin-top: 0;
         }
         
     </style>
@@ -52,8 +62,18 @@ wishRemoveTemplate.innerHTML = `
                 The wish will be deleted. <br/>
                 Are you sure?
             </p>
-            <button id="cancelButton" class="button button_outlined">cancel</button>
-            <button type="button" id="removeButton" class="button button_solid">remove</button>
+            <app-button class="dialog__cancel"
+                id="buttonCancel"
+                button-name="cancel-button"
+                appearance="outlined"
+                caption="cancel">
+            </app-button>
+            <app-button 
+                id="buttonRemove"
+                type="button"
+                appearance="solid"
+                caption="remove">
+            </app-button>
         </form>
     </div>    
 `
@@ -65,9 +85,8 @@ export default class WishRemove extends HTMLElement {
         let wishRemoveInstance = wishRemoveTemplate.content.cloneNode(true);
 
         this.veil = wishRemoveInstance.getElementById('veil');
-        this.cancelButton = wishRemoveInstance.getElementById('cancelButton');
-        this.removeButton = wishRemoveInstance.getElementById('removeButton');
-
+        this.cancelButton = wishRemoveInstance.getElementById('buttonCancel');
+        this.removeButton = wishRemoveInstance.getElementById('buttonRemove');
 
         this.attachShadow({mode: 'open'}).appendChild(wishRemoveInstance);
     }

@@ -2,17 +2,11 @@ const ButtonTemplate = document.createElement('template');
 
 ButtonTemplate.innerHTML = `
     <style>
-        ::slotted(span) {
-            
+        button {
             border-radius: 4px;
             height: 42px;
             font-size: 14px;
-            padding: 0 20px;
-        }
-        .button {
-            border-radius: 4px;
-            height: 42px;
-            font-size: 14px;
+            text-transform: uppercase;
             padding: 0 20px;
         }
         
@@ -46,35 +40,33 @@ ButtonTemplate.innerHTML = `
         }
         
     </style>
-    <slot name="caption" class="caption"></slot>
 `
 
-export default class Button extends HTMLButtonElement {
+export default class Button extends HTMLElement {
     constructor() {
         super();
 
-
-
         let ButtonInstance = ButtonTemplate.content.cloneNode(true);
 
-        this.button = ButtonInstance.querySelector('.button');
-        this.caption = ButtonInstance.getElementById('.caption');
-        this.textLabel = ButtonInstance.querySelector('.textBoxLabel');
+        let button = document.createElement('button');
+        //button.id = 'app-button';
+        if (this.getType) button.type = this.getType;
+        button.textContent = this.getCaption;
+        button.classList.add(`button_${this.buttonAppearance}`);
+        this.appendChild(button);
 
         this.appendChild(ButtonInstance);
     }
 
-    get inputID() { return this.getAttribute('id'); }
-    get buttonType() { return this.getAttribute('type'); }
-    get buttonAppearance() { return this.getAttribute('button-appearance'); }
+    //get getID() { return this.getAttribute('button-id'); }
+    get getCaption() {return this.getAttribute('caption');}
+    get getType() { return this.getAttribute('type'); }
+    get buttonAppearance() { return this.getAttribute('appearance'); }
 
-    static get observedAttributes() { return ["button-appearance","type","id"]; }
+    static get observedAttributes() { return ["appearance","type","id"]; }
 
     attributeChangedCallback() {
-
-        this.type = this.buttonType;
-        if (this.buttonAppearance === "solid") {this.button.classList.add('button_solid');}
-        if (this.buttonAppearance === "outlined") {this.button.classList.add('button_outlined');}
+        
     }
 
     connectedCallback() {
@@ -82,4 +74,4 @@ export default class Button extends HTMLButtonElement {
     }
 }
 
-customElements.define('app-button', Button, { extends: 'button' });
+customElements.define('app-button', Button);
