@@ -54,6 +54,33 @@ function renderWishCard (doc) {
     card.setAttribute('data-id', doc.id);
     card.setAttribute('data-image', doc.data().imageURL);
     card.setAttribute('data-granted', doc.data().isGranted);
+
+    if (doc.data().isGranted) {
+        let grantHelper = document.createElement('span');
+        let grantPerson = document.createElement('span');
+        let grantDate = document.createElement('span');
+
+        grantHelper.setAttribute('slot', 'grantHelper');
+        grantPerson.setAttribute('slot', 'grantPerson');
+        grantDate.setAttribute('slot', 'grantDate');
+
+        if (doc.data().grantHelper === 'me') {
+            grantHelper.textContent = '';
+        } else if (doc.data().grantHelper === 'by') {
+            grantHelper.textContent = 'by';
+        } else if (doc.data().grantHelper === 'helper') {
+            grantHelper.textContent = 'with the help of';
+        }
+        if (doc.data().grantDate) {
+            grantDate.textContent = `on ${doc.data().grantDate}`;
+        }
+        grantPerson.textContent = doc.data().grantPerson;
+
+        card.appendChild(grantHelper);
+        card.appendChild(grantPerson);
+        card.appendChild(grantDate);
+    }
+
     card.appendChild(title);
     card.appendChild(category);
     card.appendChild(description);

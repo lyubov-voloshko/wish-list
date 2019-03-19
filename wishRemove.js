@@ -40,7 +40,47 @@ wishRemoveTemplate.innerHTML = `
             background: white;
             border-radius: 8px;
             padding: 20px 24px;
-            width: 280px;
+            width: 420px;
+        }
+        
+        header {
+            margin-bottom: 36px;          
+        }
+        
+        .illustration {
+            position: relative;
+            display: block;
+            width: 224px;
+        }
+        
+        .illustration__frame {
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(white, transparent 25%),
+            linear-gradient(-90deg, white, transparent 25%),
+            linear-gradient(360deg, white, transparent 25%),
+            linear-gradient(90deg, white, transparent 25%);
+            margin-top: -1px;
+            height: 100%;
+            width: 100%;
+        }
+        
+        img {
+            filter: sepia(1) hue-rotate(320deg) opacity(0.75);
+            width: 100%;
+        }
+        
+        h1 {
+            margin-top: -44px;
+            opacity: 0.99;
+            margin-left: 100px;
+            text-shadow: 0 0 1px #000;
+        }
+        
+        h1 .highlighted {
+            color: var(--colorSecondary_dark);
+            text-shadow: 0 0 5px #fff;
+
         }
         
         .dialog__cancel {
@@ -58,9 +98,17 @@ wishRemoveTemplate.innerHTML = `
     <div class="screenWrapper">
         <div id="veil" class="screenWrapper__veil"></div>
         <form class="dialog">
+            <header>
+                <div class="illustration">
+                    <img src="https://i1.wp.com/www.michaeljfoxdatabase.com/wp-content/gallery/2003-1014-interstate-60-a/still_I60_008_granted.jpg?resize=525%2C300">
+                    <div class="illustration__frame"></div>        
+                </div>
+                <h1>
+                    <span class="highlighted">Delete?</span>
+                     Are you sure?</h1>
+            </header>
             <p>
-                The wish will be deleted. <br/>
-                Are you sure?
+                Your wish will be deleted for good.
             </p>
             <app-button class="dialog__cancel"
                 id="buttonCancel"

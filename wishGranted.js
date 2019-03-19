@@ -1,6 +1,6 @@
-const wishEditTemplate = document.createElement('template');
+const wishGrantTemplate = document.createElement('template');
 
-wishEditTemplate.innerHTML = `
+wishGrantTemplate.innerHTML = `
     <style>
         :host {
             position: relative;
@@ -44,13 +44,13 @@ wishEditTemplate.innerHTML = `
         }
         
         header {
-            margin-bottom: 44px;          
+            margin-bottom: 36px;          
         }
         
         .illustration {
             position: relative;
             display: block;
-            width: 224px;
+            width: 240px;
         }
         
         .illustration__frame {
@@ -72,8 +72,8 @@ wishEditTemplate.innerHTML = `
         
         h1 {
             margin-top: -44px;
+            margin-left: 136px;
             opacity: 0.99;
-            margin-left: 108px;
             text-shadow: 0 0 1px #000;
         }
         
@@ -83,60 +83,54 @@ wishEditTemplate.innerHTML = `
 
         }
         
-        fieldset {
+        p {
+            flex: 1 0 auto;
+            margin-right: 8px;
+        }
+        
+        .grantedBy, .grantOn {
             display: flex;
             align-items: center;
-            flex-wrap: wrap;
-            border: none;
-            margin-bottom: 12px;
-            padding: 0;
+            margin: 8px 0;
         }
         
-        .dialog__title {
-            display: block;
-            margin: 12px 0;
-            width: 50%;
-        }
-        
-        .dialog__textBox {
-            display: block;
-            margin: 12px 0;
-            width: 100%;
+        .dialog__giver {
+            margin-left: 8px;
         }
         
         .dialog__cancel {
             margin-right: 8px;
         }
     </style>
-    <div class="screenWrapper">
+    <header class="screenWrapper">
         <div id="veil" class="screenWrapper__veil"></div>
-        <form id="wishEdit" class="dialog">
-            
+        <form id="wishGranted" class="dialog">
+           
             <header>
                 <div class="illustration">
-                    <img src="https://m.media-amazon.com/images/M/MV5BZTgxMWU0MTItMzdmNC00OTAyLTgxN2ItOWFlYjkyOWEyNTIwXkEyXkFqcGdeQXVyMzE2MzgxNDk@._V1_.jpg">
+                    <img src="https://m.media-amazon.com/images/M/MV5BYzYyNThhNTQtZmQwNy00OTExLThmNGUtOTk1NzM0YWEzYTQ3XkEyXkFqcGdeQXVyMjAxMTI4Njc@._V1_.jpg">
                     <div class="illustration__frame"></div>        
                 </div>
                 <h1>
-                    <span class="highlighted">Specify!</span>
-                     It's important</h1>
+                    <span class="highlighted">Grant!</span>
+                     One Wish</h1>
             </header>
             
-            <fieldset>
-                <text-box id="editWishTitle" input-label="name of wish" class="dialog__title"></text-box>
-                <select id="editWishSelect">
-                    <option>book</option>
-                    <option>clothes</option>
-                    <option>food</option>
-                    <option>item</option>
-                    <option>job</option>
-                    <option>travelling</option>
+            
+            <div class="grantedBy">
+                <p>It was granted</p>
+                <select id="grantHelper">
+                    <option>by me</option>
+                    <option>by</option>
+                    <option>with the help of</option>
                 </select>
-                <text-box id="editWishDescription" input-label="short description" class="dialog__textBox"></text-box>
-                <text-box id="editWishImage" input-label="url of picture" class="dialog__textBox"></text-box>
-            </fieldset>
-            
-            
+                <text-box id="grantPerson" input-label="person name" class="dialog__giver"></text-box>
+            </div>
+            <div class="grantOn">
+                <p>on</p>
+                <text-box id="grantDate" input-label="date and occasion" class="dialog__title"></text-box>
+            </div>        
+           
             <div class="actions">
                 <app-button class="dialog__cancel"
                     id="cancelButton"
@@ -144,10 +138,10 @@ wishEditTemplate.innerHTML = `
                     caption="cancel">
                 </app-button>
                 <app-button
-                    id="buttonRemove"
+                    id="buttonGrant"
                     type="submit"
                     appearance="solid"
-                    caption="edit">
+                    caption="grant">
                 </app-button>
 
             </div>
@@ -155,23 +149,22 @@ wishEditTemplate.innerHTML = `
     </div>    
 `
 
-export default class WishEdit extends HTMLElement {
+export default class WishGrant extends HTMLElement {
     constructor() {
         super();
 
-        let wishEditInstance = wishEditTemplate.content.cloneNode(true);
+        let wishGrantInstance = wishGrantTemplate.content.cloneNode(true);
 
-        this.veil = wishEditInstance.getElementById('veil');
-        this.editForm = wishEditInstance.getElementById('wishEdit');
-        this.titleInput = wishEditInstance.getElementById('editWishTitle');
-        this.categorySelect = wishEditInstance.getElementById('editWishSelect');
-        this.categoryOptions = wishEditInstance.getElementById('editWishSelect').querySelectorAll('option');
-        this.descriptionInput = wishEditInstance.getElementById('editWishDescription');
-        this.imageInput = wishEditInstance.getElementById('editWishImage');
-        this.cancelButton = wishEditInstance.getElementById('cancelButton');
+        this.veil = wishGrantInstance.getElementById('veil');
+        this.editForm = wishGrantInstance.getElementById('wishEdit');
+        this.grantPerson = wishGrantInstance.getElementById('grantPerson');
+        this.grantDate = wishGrantInstance.getElementById('grantDate');
+        this.helpOptions = wishGrantInstance.getElementById('grantHelper').querySelectorAll('option');
+
+        this.cancelButton = wishGrantInstance.getElementById('cancelButton');
 
 
-        this.attachShadow({mode: 'open'}).appendChild(wishEditInstance);
+        this.attachShadow({mode: 'open'}).appendChild(wishGrantInstance);
     }
 
     get wishID() { return this.getAttribute('data-id'); }
@@ -191,21 +184,12 @@ export default class WishEdit extends HTMLElement {
             console.log("Error getting document:", error);
         }
 
-        this.titleInput.setAttribute('input-value', this.wish.data().title);
-        this.categoryOptions.forEach((option) => {
-            if (option.innerHTML === this.wish.data().category) {
-                option.selected = "selected"
-            }
-        });
-        this.descriptionInput.setAttribute('input-value', this.wish.data().description);
-        this.imageInput.setAttribute('input-value', this.wish.data().imageURL);
-
-        this.veil.addEventListener('click', () => { this.handleCloseEdit(); });
-        this.cancelButton.addEventListener('click', () => { this.handleCloseEdit(); });
+        this.veil.addEventListener('click', () => { this.handleCloseGrant(); });
+        this.cancelButton.addEventListener('click', () => { this.handleCloseGrant(); });
         this.editForm.addEventListener('submit', (e) => { this.handleSubmit(e); });
     }
 
-    handleCloseEdit() {
+    handleCloseGrant() {
         document.body.removeChild(this);
     }
 
@@ -238,4 +222,4 @@ export default class WishEdit extends HTMLElement {
 
 }
 
-customElements.define('wish-edit', WishEdit);
+customElements.define('wish-grant', WishGrant);

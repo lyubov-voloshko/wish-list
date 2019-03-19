@@ -1,5 +1,6 @@
 import WishEdit from '/wishEdit.js';
 import WishRemove from '/wishRemove.js';
+import WishGrant from '/wishGrant.js';
 
 const wishCardTemplate = document.createElement('template');
 
@@ -75,13 +76,16 @@ wishCardTemplate.innerHTML = `
             height: 20px;
             width: 100%;
         }
+        
+        .footer {
+            background: var(--colorComplementary);
+            border-radius: 0 0 8px 8px;
+            padding: 8px;
+        }
 
         .actions {
             display: flex;
             justify-content: space-between;
-            background: var(--colorComplementary);
-            border-radius: 0 0 8px 8px;
-            padding: 8px;
         }
         
         .button_primary {
@@ -160,23 +164,18 @@ wishCardTemplate.innerHTML = `
         <slot name="description">Wish description</slot>
         <div class="description__veil"></div>
     </div>
-    <div class="actions">
-        <button type="button" id="opentWish" class="button_secondary">open</button>
-        <button type="button" id="editWish" class="button_secondary">edit</button>
+    <div class="footer">
+        <div id="actions" class="actions">
+            <button type="button" id="editWish" class="button_secondary">edit</button>
+        </div>
+        <div id="gratitude" class="gratitude">
+            The wish was granted 
+            <slot name="grantHelper"></slot>
+            <slot name="grantPerson"></slot>
+            <slot name="grantDate"></slot>
+        </div>
         <button type="button" id="removeWish" class="button_secondary">remove</button>
     </div>
-    
-    <template id="remove-dialog">
-        <div id="veil" class="removeDialog__veil"></div>
-        <div id="" class="dialog">
-            <p>
-                The wish will be deleted. <br/>
-                Are you sure?
-            </p>
-            <button class="button button_outlined">cancel</button>
-            <button class="button button_solid">delete</button>
-        </div>
-    </template>
 `
 
 export default class WishCard extends HTMLElement {
@@ -188,8 +187,10 @@ export default class WishCard extends HTMLElement {
         this.image = wishCardInstance.getElementById('wishImage');
         this.grantedMark = wishCardInstance.getElementById('grantedMark');
         this.grantButton = wishCardInstance.getElementById('grantWish');
+        this.actions = wishCardInstance.getElementById('actions');
         this.editButton = wishCardInstance.getElementById('editWish');
         this.removeButton = wishCardInstance.getElementById('removeWish');
+        this.gratitude = wishCardInstance.getElementById('gratitude');
 
         this.removeDialog = wishCardInstance.getElementById('remove-dialog');
 
@@ -202,12 +203,16 @@ export default class WishCard extends HTMLElement {
     connectedCallback() {
         this.removeButton.addEventListener('click', (e) => { this.openWishRemove(e); });
         this.editButton.addEventListener('click', (e) => { this.openWishEdit(e); });
-        this.grantButton.addEventListener('click', (e) => { this.grantWish(e); });
+        this.grantButton.addEventListener('click', (e) => { this.openWishGrant(e); });
 
         if (this.getAttribute('data-granted') === 'true') {
             this.grantButton.style.visibility='hidden'
+            this.actions.style.display = 'none';
+            this.gratitude.style.display = 'block';
         } else {
             this.grantedMark.style.visibility='hidden'
+            this.actions.style.display = 'flex';
+            this.gratitude.style.display = 'none';
         };
 
         this.image.style.backgroundImage = `url(${this.imageURL}`;
@@ -220,17 +225,16 @@ export default class WishCard extends HTMLElement {
         document.body.appendChild(editDialog);
     }
 
-    removeWish(e) {
-        e.stopPropagation();
-        let id = this.getAttribute('data-id');
-        console.log('deleted id: ' + id);
-        db.collection('wishes').doc(id).delete();
-    }
-
-    openWishRemove(){
+    openWishRemove() {
         let removeDialog = document.createElement('wish-remove');
         removeDialog.setAttribute('data-id', this.wishId);
         document.body.appendChild(removeDialog);
+    }
+
+    openWishGrant() {
+        let grantDialog = document.createElement('wish-grant');
+        grantDialog.setAttribute('data-id', this.wishId);
+        document.body.appendChild(grantDialog);
     }
 
     grantWish() {
