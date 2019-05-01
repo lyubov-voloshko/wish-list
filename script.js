@@ -1,7 +1,7 @@
-import TextBox from '/textField.js';
-import AppButton from '/button.js';
+import TextBox from './textField.js';
+import AppButton from './button.js';
 
-import wishCard from '/wishCard.js';
+import wishCard from './wishCard.js';
 
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
