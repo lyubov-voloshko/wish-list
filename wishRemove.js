@@ -111,6 +111,7 @@ wishRemoveTemplate.innerHTML = `
                 Your wish will be deleted for good.
             </p>
             <app-button class="dialog__cancel"
+                type="button"
                 id="buttonCancel"
                 button-name="cancel-button"
                 appearance="outlined"

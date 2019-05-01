@@ -137,6 +137,7 @@ wishGrantTemplate.innerHTML = `
            
             <div class="actions">
                 <app-button class="dialog__cancel"
+                    type="button"
                     id="cancelButton"
                     appearance="outlined"
                     caption="cancel">
