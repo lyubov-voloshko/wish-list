@@ -1,6 +1,6 @@
-import WishEdit from '/wishEdit.js';
-import WishRemove from '/wishRemove.js';
-import WishGrant from '/wishGrant.js';
+import WishEdit from './wishEdit.js';
+import WishRemove from './wishRemove.js';
+import WishGrant from './wishGrant.js';
 
 const wishCardTemplate = document.createElement('template');
 
