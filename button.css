@@ -11,8 +11,8 @@
     border: 1px solid var(--colorSecondary_dark);
     color: white;
     transition: background var(--transition-speed),
-    border var(--transition-speed),
-    color var(--transition-speed);
+        border var(--transition-speed),
+        color var(--transition-speed);
 }
 
 .button_solid:hover {

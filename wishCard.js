@@ -8,11 +8,9 @@ wishCardTemplate.innerHTML = `
     <style>
         :host {
             position: relative;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;            
+            display: flex;            
             border-radius: 12px;
-            box-shadow: 0 0 12px 3px #0000001a;
+            box-shadow: 0 0 5px 1px #0000001a;
             height: 100%;
             overflow: hidden;
             padding: 8px;
@@ -20,10 +18,9 @@ wishCardTemplate.innerHTML = `
         
         .granted {
             position: absolute;
-            background: var(--colorSecondary_dark) ;
-            //border: 1px solid var(--colorSecondary_dark);
+            background: var(--colorComplementary) ;
+            border: 2px solid var(--colorSecondary_dark);
             padding: 8px;
-            color: white;
             transform: translate(-48px, 8px) rotate(-45deg);
             width: 120px;
             text-align: center;
@@ -34,9 +31,22 @@ wishCardTemplate.innerHTML = `
         #wishImage {
             background-size: cover;
             background-position: center center;
-            border-radius: 12px 12px 0 0;
-            height: 180px;
-            width: 100%;
+            border-radius: 8px 0 0 8px;
+            height: 100%;
+            margin-right: 8px;
+            min-width: 50%;
+            width: 50%;
+        }
+        
+        .wishInfo {
+            flex: 1 1 auto;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            grid-template-rows: 1fr auto;
+        }
+        
+        .info {
+            flex: 1 1 auto;
         }
 
         .category {
@@ -44,7 +54,7 @@ wishCardTemplate.innerHTML = `
             color: #888;
             font-size: 12px;
             letter-spacing: 0.15em;
-            margin: 8px 0 4px;
+            margin: 4px 0;
             text-transform: uppercase;
         }
 
@@ -76,20 +86,23 @@ wishCardTemplate.innerHTML = `
             height: 20px;
             width: 100%;
         }
-        
-        .footer {
-            background: var(--colorComplementary);
-            border-radius: 0 0 8px 8px;
-            padding: 8px;
-        }
 
         .actions {
             display: flex;
+            flex-direction: column;
+            align-items: flex-end;
             justify-content: space-between;
         }
         
+        .actions__notGranted {
+            display: flex;
+            align-items: flex-end;
+            flex-direction: column;
+            gap: 8px;
+        }
+        
         .button_primary {
-            position: absolute;
+            //position: absolute;
             top: 180px;
             right: 8px;
             background: var(--colorSecondary_dark);
@@ -100,6 +113,7 @@ wishCardTemplate.innerHTML = `
             line-height: 32px;
             text-transform: uppercase;
             width: 80px;
+            transition: background 300ms;
         }
         
         .button_primary:hover {
@@ -115,58 +129,39 @@ wishCardTemplate.innerHTML = `
             letter-spacing: 0.1em;
             text-transform: uppercase;
             padding: 2px 4px;
-            transition: background 300ms, color 300ms;
+            transition: text-shadow 300ms, color 300ms;
         }
 
         .button_secondary:hover {
-            background: var(--colorSecondary_light);
-            color: white;
+            color: #333;
+            text-shadow: 0.5px 0 0 #333;
         }
         
-        #removeDialog {
-            position: fixed;
-            top: 0;
-            left: 0;
-            height: 100vh;
-            width: 100vw;
-        }
-        
-        .removeDialog__veil {
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: black;
-            opacity: 0.5;
-            height: 100vh;
-            width: 100vw;
-        }
-        
-        .dialog {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border-radius: 8px;
-            height: 320px;
-            padding: 40px 32px;
-            width: 480px;
+        .gratitude {
+            grid-column: 1 / span 2;
+            align-items: center;
+            background: var(--colorComplementary);
+            padding: 8px 8px;
+            border-radius: 0 0 8px 0;
         }
     </style>
-    <div>
-        <div id="grantedMark" class="granted">granted</div>
-        <div id="wishImage" role="img"></div>
-        <button type="button" id="grantWish" class="button_primary">grant</button>        
+    <div id="grantedMark" class="granted">granted</div>
+    <div id="wishImage" role="img"></div>
+    <div class="wishInfo">
+        <div class="info">      
         <slot name="category" class="category">category</slot>
-    </div>
-    <h1><slot name="title">Name of wish</slot></h1>
-    <div class="description">
-        <slot name="description">Wish description</slot>
-        <div class="description__veil"></div>
-    </div>
-    <div class="footer">
-        <div id="actions" class="actions">
-            <button type="button" id="editWish" class="button_secondary">edit</button>
+        <h1><slot name="title">Name of wish</slot></h1>
+        <div class="description">
+            <slot name="description">Wish description</slot>
+            <div class="description__veil"></div>
+        </div>
+        </div>
+        <div class="actions">
+            <div id="actions" class="actions__notGranted">
+                <button type="button" id="grantWish" class="button_primary">grant</button>  
+                <button type="button" id="editWish" class="button_secondary">edit</button>
+            </div>
+            <button type="button" id="removeWish" class="button_secondary">remove</button>
         </div>
         <div id="gratitude" class="gratitude">
             The wish was granted 
@@ -174,7 +169,6 @@ wishCardTemplate.innerHTML = `
             <slot name="grantPerson"></slot>
             <slot name="grantDate"></slot>
         </div>
-        <button type="button" id="removeWish" class="button_secondary">remove</button>
     </div>
 `
 

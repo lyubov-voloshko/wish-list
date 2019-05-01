@@ -4,7 +4,7 @@ ButtonTemplate.innerHTML = `
     <style>
         button {
             border-radius: 4px;
-            height: 42px;
+            height: 36px;
             font-size: 14px;
             text-transform: uppercase;
             padding: 0 20px;
@@ -55,6 +55,8 @@ export default class Button extends HTMLElement {
         button.classList.add(`button_${this.buttonAppearance}`);
         this.appendChild(button);
 
+        this.button = button;
+
         this.appendChild(ButtonInstance);
     }
 
@@ -66,11 +68,9 @@ export default class Button extends HTMLElement {
     static get observedAttributes() { return ["appearance","type","id"]; }
 
     attributeChangedCallback() {
-        
     }
 
     connectedCallback() {
-
     }
 }
 

@@ -144,7 +144,7 @@ wishEditTemplate.innerHTML = `
                     caption="cancel">
                 </app-button>
                 <app-button
-                    id="buttonRemove"
+                    id="buttonEdit"
                     type="submit"
                     appearance="solid"
                     caption="edit">

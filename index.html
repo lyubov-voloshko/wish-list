@@ -38,7 +38,7 @@
             <form id="addWishForm" class="addWishForm">
                 <text-box id="addWishTitle"
                           input-label="Enter your wish"
-                          class="addWishForm__textBox addWishForm__textBox_wish">
+                          class="addWishForm__textBox">
                 </text-box>
 
                 <select id="addWishCategory" class="addWishForm__select">
@@ -61,7 +61,12 @@
                           class="addWishForm__textBox addWishForm__textBox_image">
                 </text-box>
 
-                <button type="submit" class="button button_solid addWishForm__button_solid">make a wish</button>
+                <app-button
+                        id="makeWish"
+                        type="submit"
+                        appearance="solid"
+                        caption="make a wish">
+                </app-button>
             </form>
             <div class="wishes">
                 <ul class="tabs">

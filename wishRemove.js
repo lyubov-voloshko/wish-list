@@ -154,16 +154,16 @@ export default class WishRemove extends HTMLElement {
         document.body.removeChild(this);
     }
 
-    handleRemove(e) {
+    async handleRemove(e) {
         e.stopPropagation();
-
-        console.log('deleted id: ' + this.wishID);
-        db.collection('wishes').doc(this.wishID).delete().then( () => {
+        try {
+            console.log('deleted id: ' + this.wishID);
+            await db.collection('wishes').doc(this.wishID).delete();
             console.log("Document successfully deleted!");
             this.handleCloseRemove();
-        }).catch(function(error) {
-            console.error("Error: ", error);
-        });
+        } catch (e) {
+            console.exception(e);
+        }
     }
 
 }
