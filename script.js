@@ -1,7 +1,7 @@
-import TextBox from './textField.js';
-import AppButton from './button.js';
+import TextBox from './components/UI/textField.js';
+import AppButton from './components/UI/button.js';
 
-import wishCard from './wishCard.js';
+import wishCard from './components/wishCard.js';
 
 const wishList = document.getElementById('withList');
 const addWishForm = document.getElementById('addWishForm');
@@ -95,7 +95,6 @@ function getWishes () {
             renderWishItem(doc);
         })
     })
-
 }
 
 function getWishesGranted (isGranted) {

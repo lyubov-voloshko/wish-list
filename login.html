@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Log In</title>
+        <link rel="shortcut icon" type="image/png" href="/shooting-star-favicon.png"/>
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
+        <link rel="stylesheet" href="reset.css">
+        <link rel="stylesheet" href="style.css">
+        <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre" rel="stylesheet">
+
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyA4BJf1CbGVZ-CH8U9FxIwjyjfHa4b1SRE",
+                authDomain: "wish-list-6144b.firebaseapp.com",
+                databaseURL: "https://wish-list-6144b.firebaseio.com",
+                projectId: "wish-list-6144b",
+                storageBucket: "wish-list-6144b.appspot.com",
+                messagingSenderId: "183033496938"
+            };
+            firebase.initializeApp(config);
+
+            const auth = firebase.auth();
+        </script>
+
+        <script src="script.js" type="module"></script>
+        <script src="login.js" type="module"></script>
+
+        <style>
+
+            header {
+                margin-bottom: 36px;
+            }
+
+            .illustration {
+                position: relative;
+                display: block;
+                width: 224px;
+            }
+
+            .illustration__frame {
+                position: absolute;
+                top: 0; right: 0; bottom: 0; left: 0;
+                background: linear-gradient(white, transparent 25%),
+                linear-gradient(-90deg, white, transparent 25%),
+                linear-gradient(360deg, white, transparent 25%),
+                linear-gradient(90deg, white, transparent 25%);
+                margin-top: -1px;
+                height: 100%;
+                width: 100%;
+            }
+
+            img {
+                filter: sepia(1) hue-rotate(320deg) opacity(0.75);
+                width: 100%;
+            }
+
+            .formHeader {
+                margin-top: -46px;
+                opacity: 0.99;
+                margin-left: 128px;
+                text-shadow: 0 0 1px #000;
+                font-size: 2em;
+            }
+
+            .formHeader .highlighted {
+                color: var(--colorSecondary_dark);
+                text-shadow: 0 0 5px #fff;
+
+            }
+        </style>
+
+    </head>
+    <body>
+        <nav class="navigation">
+            <h1 class="navigation__projectName">Wish List</h1>
+        </nav>
+
+        <form id="login-form" class="form loginForm">
+
+            <header>
+                <div class="illustration">
+                    <img src="http://dl4.joxi.net/drive/2019/03/15/0007/0703/459455/55/6c2a652e9a.jpg">
+                    <div class="illustration__frame"></div>
+                </div>
+                <h1 class="formHeader">
+                    <span class="highlighted">Log in!</span>
+                    and pay attention</h1>
+            </header>
+
+            <fieldset>
+                <text-box id="login-email"
+                          input-label="Enter your email"
+                          class="loginForm__textBox">
+                </text-box>
+
+                <text-box id="login-password"
+                          input-label="Enter password"
+                          class="loginForm__textBox">
+                </text-box>
+
+                <app-button
+                        id="loginButton"
+                        type="submit"
+                        appearance="solid"
+                        caption="log in"
+                        class="loginForm__button">
+                </app-button>
+            </fieldset>
+        </form>
+    </body>
+</html>

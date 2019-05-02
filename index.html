@@ -6,12 +6,11 @@
         <link rel="shortcut icon" type="image/png" href="/shooting-star-favicon.png"/>
         <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-app.js"></script>
         <script src="https://www.gstatic.com/firebasejs/5.5.3/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-auth.js"></script>
         <link rel="stylesheet" href="reset.css">
         <link rel="stylesheet" href="style.css">
-        <link rel="stylesheet" href="button.css">
         <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Averia+Serif+Libre" rel="stylesheet">
-
 
         <script>
             // Initialize Firebase
@@ -27,47 +26,63 @@
 
             const db = firebase.firestore();
             db.settings({ timestampsInSnapshots: true });
+
+            const auth = firebase.auth();
         </script>
 
         <script src="script.js" type="module"></script>
+        <script src="auth.js" type="module"></script>
 
     </head>
     <body>
-        <h1>Wish List</h1>
+        <nav class="navigation">
+            <app-button class="navigation__button"
+                    id="add-wish-button"
+                    type="button"
+                    appearance="solid"
+                    caption="add a wish">
+            </app-button>
+
+            <h1 class="navigation__projectName">Wish List</h1>
+
+            <app-button class="navigation__button"
+                    id="logout-button"
+                    appearance="solid"
+                    caption="log out">
+            </app-button>
+        </nav>
+        <form id="addWishForm" class="addWishForm">
+            <text-box id="addWishTitle"
+                      input-label="Enter your wish">
+            </text-box>
+
+            <select id="addWishCategory" class="addWishForm__select">
+                <option>book</option>
+                <option>clothes</option>
+                <option>food</option>
+                <option>item</option>
+                <option>job</option>
+                <option>travelling</option>
+            </select>
+
+            <text-box id="addWishDescription"
+                      input-label="Add some description">
+            </text-box>
+
+            <text-box id="addWishImage"
+                      name="wishImage"
+                      input-label="Add image url">
+            </text-box>
+
+            <app-button
+                    id="makeWish"
+                    type="submit"
+                    appearance="solid"
+                    caption="make a wish">
+            </app-button>
+        </form>
+
         <div class="content">
-            <form id="addWishForm" class="addWishForm">
-                <text-box id="addWishTitle"
-                          input-label="Enter your wish"
-                          class="addWishForm__textBox">
-                </text-box>
-
-                <select id="addWishCategory" class="addWishForm__select">
-                    <option>book</option>
-                    <option>clothes</option>
-                    <option>food</option>
-                    <option>item</option>
-                    <option>job</option>
-                    <option>travelling</option>
-                </select>
-
-                <text-box id="addWishDescription"
-                          input-label="Add some description"
-                          class="addWishForm__textBox addWishForm__textBox_description">
-                </text-box>
-
-                <text-box id="addWishImage"
-                          name="wishImage"
-                          input-label="Add image url"
-                          class="addWishForm__textBox addWishForm__textBox_image">
-                </text-box>
-
-                <app-button
-                        id="makeWish"
-                        type="submit"
-                        appearance="solid"
-                        caption="make a wish">
-                </app-button>
-            </form>
             <div class="wishes">
                 <ul class="tabs">
                     <li class="tab">

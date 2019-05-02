@@ -92,6 +92,7 @@ wishCardTemplate.innerHTML = `
             flex-direction: column;
             align-items: flex-end;
             justify-content: space-between;
+            margin-left: 12px;
         }
         
         .actions__notGranted {
@@ -156,8 +157,8 @@ wishCardTemplate.innerHTML = `
             <div class="description__veil"></div>
         </div>
         </div>
-        <div class="actions">
-            <div id="actions" class="actions__notGranted">
+        <div id="controls" class="actions">
+            <div id="actions__notGranted" class="actions__notGranted">
                 <button type="button" id="grantWish" class="button_primary">grant</button>  
                 <button type="button" id="editWish" class="button_secondary">edit</button>
             </div>
@@ -178,10 +179,27 @@ export default class WishCard extends HTMLElement {
 
         let wishCardInstance = wishCardTemplate.content.cloneNode(true);
 
+        this.controls = wishCardInstance.getElementById('controls');
+
+
+        if (!firebase.auth().currentUser) {
+            this.controls.style.display = 'none';
+        } else {
+            this.controls.style.display = 'flex';
+        }
+
+        auth.onAuthStateChanged( user => {
+            if (user) {
+                this.controls.style.display = 'flex';
+            } else {
+                this.controls.style.display = 'none';
+            }
+        });
+
         this.image = wishCardInstance.getElementById('wishImage');
         this.grantedMark = wishCardInstance.getElementById('grantedMark');
         this.grantButton = wishCardInstance.getElementById('grantWish');
-        this.actions = wishCardInstance.getElementById('actions');
+        this.actions = wishCardInstance.getElementById('actions__notGranted');
         this.editButton = wishCardInstance.getElementById('editWish');
         this.removeButton = wishCardInstance.getElementById('removeWish');
         this.gratitude = wishCardInstance.getElementById('gratitude');
